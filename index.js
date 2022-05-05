@@ -58,9 +58,25 @@ async function run() {
         // ---delete item---
         app.delete('/deleteItem/:id', async(req, res) => {
             const id = req.params.id;
-            console.log(id)
             const query = { _id: ObjectId(id) };
             const result = await itemsCollection.deleteOne(query);
+            res.send(result);
+        })
+
+        // ---add item---
+        app.post('/addItem', async(req, res) => {
+            const item = req.body;
+            console.log(item)
+            const doc = {
+                img: item.img,
+                name: item.name,
+                email: item.email,
+                description: item.description,
+                price: item.price,
+                quantity: item.quantity,
+                suppiler: item.suppiler,
+            }
+            const result = await itemsCollection.insertOne(doc);
             res.send(result);
         })
     } finally {
