@@ -77,7 +77,17 @@ async function run() {
                 suppiler: item.suppiler,
             }
             const result = await itemsCollection.insertOne(doc);
+            res.json(result);
+        })
+
+        // ---get item by email---
+        app.get('/getItemByEmail', async(req, res) => {
+            const email = req.query.email;
+            const query = { email: email }
+            const cursor = itemsCollection.find(query);
+            const result = await cursor.toArray();
             res.send(result);
+
         })
     } finally {
         // await client.close();
