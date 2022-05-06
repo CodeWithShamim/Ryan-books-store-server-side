@@ -45,9 +45,16 @@ async function run() {
             const quantity = req.body.newQuantity;
             const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
+
+            let updateQuantity
+            if (quantity == "Sold out") {
+                updateQuantity = toString(quantity);
+            } else {
+                updateQuantity = parseInt(quantity);
+            }
             const updateDoc = {
                 $set: {
-                    quantity: quantity
+                    quantity: parseInt(updateQuantity)
                 },
             };
             const result = await itemsCollection.updateOne(filter, updateDoc, options);
