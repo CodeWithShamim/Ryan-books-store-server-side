@@ -47,7 +47,7 @@ async function run() {
             const options = { upsert: true };
             const updateDoc = {
                 $set: {
-                    quantity: parseInt(quantity)
+                    quantity: quantity
                 },
             };
             const result = await itemsCollection.updateOne(filter, updateDoc, options);
@@ -66,7 +66,7 @@ async function run() {
         // ---add item---
         app.post('/addItem', async(req, res) => {
             const item = req.body;
-            console.log(item)
+            // console.log(item)
             const doc = {
                 img: item.img,
                 name: item.name,
@@ -103,4 +103,4 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
     console.log("Listening to port is", port)
-})
+});
