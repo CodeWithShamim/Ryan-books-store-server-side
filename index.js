@@ -122,6 +122,8 @@ async function run() {
         const cursor = itemsCollection.find(query);
         const result = await cursor.toArray();
         res.send(result);
+      } else {
+        res.status(403).send({ message: "Forbidden access" });
       }
     });
 
