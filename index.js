@@ -128,7 +128,7 @@ async function run() {
         app.post('/login', async(req, res) => {
             const user = req.body;
             // console.log(user)
-            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_PRIVATE);
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_PRIVATE, { expiresIn: '1d' });
             res.send({ accessToken });
 
         })
