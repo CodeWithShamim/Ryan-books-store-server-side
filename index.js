@@ -42,10 +42,13 @@ async function run() {
   try {
     await client.connect();
     const itemsCollection = client.db("booksItems").collection("items");
-    const query = {};
+    const featuredCollection = client
+      .db("booksItems")
+      .collection("featuredItems");
 
     // get all items
     app.get("/items", async (req, res) => {
+      const query = {};
       const cursor = await itemsCollection.find(query);
       const result = await cursor.toArray();
 
@@ -135,6 +138,14 @@ async function run() {
         expiresIn: "1d",
       });
       res.send({ accessToken });
+    });
+
+    // ==================get featured books item=====================
+    app.get("/getFeatured", async (req, res) => {
+      const query = {};
+      const cursor = await featuredCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
     });
   } finally {
     // await client.close();
