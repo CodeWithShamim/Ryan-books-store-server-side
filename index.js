@@ -11,6 +11,28 @@ app.use(cors())
 app.use(express.json());
 
 
+// -- verify jwt--
+const verifyJwt = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    console.log(authHeader);
+    if (!authHeader) {
+        return res.status(401).send({ message: "Unauthorized access" })
+    }
+    const token = authHeader.split(" ")[1];
+    jwt.verify(token, process.env.ACCESS_TOKEN_PRIVATE, (err, decoded) => {
+        if (err) {
+            return res.status(403).send({ message: "Forbidden access" })
+        }
+        if (decoded) {
+            req.decoded = decoded;
+            next();
+        }
+
+    })
+
+}
+
+
 // -- db added --
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
@@ -90,22 +112,23 @@ async function run() {
         })
 
         // ---get item by email---
-        app.get('/getItemByEmail', async(req, res) => {
+        app.get('/getItemByEmail', verifyJwt, async(req, res) => {
+            const decodedEmail = req.decoded.email;
             const email = req.query.email;
-            const query = { email: email }
-            const cursor = itemsCollection.find(query);
-            const result = await cursor.toArray();
-            res.send(result);
 
+            if (email === decodedEmail) {
+                const query = { email: email }
+                const cursor = itemsCollection.find(query);
+                const result = await cursor.toArray();
+                res.send(result);
+            }
         })
 
         // ====JWT Auth====
         app.post('/login', async(req, res) => {
-            const user = req.body.email;
-            console.log(user)
-            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_PRIVATE, {
-                expiresIn: '1d'
-            });
+            const user = req.body;
+            // console.log(user)
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_PRIVATE);
             res.send({ accessToken });
 
         })
