@@ -1,11 +1,11 @@
 {
     "name": "ryan-books-store-server-side",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "",
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
-        "start-dev": "nodemon index.js",
+        "dev": "nodemon index.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
