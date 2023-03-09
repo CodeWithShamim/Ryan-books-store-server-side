@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "name": "rbs-backend",
+    "name": "ryan-books-store-server-side",
     "builds": [
        { "src": "./index.js", "use": "@vercel/node" }
     ],
