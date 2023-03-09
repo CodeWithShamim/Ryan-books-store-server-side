@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 // -- verify jwt--
-const verifyJwt = (req, res, next) => {
+module.exports = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
     return res.status(401).send({ message: "Unauthorized access" });
@@ -17,5 +17,3 @@ const verifyJwt = (req, res, next) => {
     }
   });
 };
-
-module.exports = verifyJwt;

@@ -80,6 +80,8 @@ router.get("/getItemByEmail", verifyJwt, async (req, res) => {
   const decodedEmail = req.decoded.email;
   const email = req.query.email;
 
+  console.log(email);
+
   if (email === decodedEmail) {
     const query = { email: email };
     const db = await getDB();
