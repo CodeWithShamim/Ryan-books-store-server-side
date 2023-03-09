@@ -1,9 +1,8 @@
 const express = require("express");
 const getDB = require("../utils/database");
 const router = express.Router();
-
 const jwt = require("jsonwebtoken");
-const verifyJwt = require("../middlewars/VerifyJWT");
+const verifyJwt = require("../middlewars/VerifyJwt")
 
 // get all items
 router.get("/items", async (req, res) => {
